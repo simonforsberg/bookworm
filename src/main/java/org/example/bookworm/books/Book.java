@@ -34,6 +34,7 @@ public class Book {
     private LocalDate publicationDate;
 
     @NotBlank
+    @Column(length = 500)
     private String description;
 
     @Column(unique = true)
