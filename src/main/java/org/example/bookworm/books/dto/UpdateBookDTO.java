@@ -1,0 +1,36 @@
+package org.example.bookworm.books.dto;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDate;
+
+@Getter
+@Setter
+@NoArgsConstructor
+public class UpdateBookDTO {
+
+    @NotBlank
+    private String title;
+
+    @NotBlank
+    private String author;
+
+    @NotBlank
+    private String publisher;
+
+    @NotNull
+    private LocalDate publicationDate;
+
+    @NotBlank
+    private String description;
+
+    @NotBlank
+    @Size(min = 10, max = 13)
+    private String isbn;
+
+}
