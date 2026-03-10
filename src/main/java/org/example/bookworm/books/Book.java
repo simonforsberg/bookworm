@@ -36,6 +36,7 @@ public class Book {
     @NotBlank
     private String description;
 
+    @Column(unique = true)
     @NotBlank
     @Size(min = 10, max = 13)
     private String isbn;
