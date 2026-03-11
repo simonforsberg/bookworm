@@ -33,10 +33,10 @@ public class BookController {
     }
 
     // Visa formulär för att skapa ett nytt objekt
-    @GetMapping("/new")
+    @GetMapping("/add")
     public String showCreateBookForm(Model model) {
         model.addAttribute("book", new CreateBookDTO());
-        return "books/create";
+        return "books/add";
     }
 
     // Skapa ett nytt objekt
@@ -45,7 +45,7 @@ public class BookController {
                              BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             log.warn("Validation failed when creating book: {}", bindingResult.getAllErrors());
-            return "books/create";
+            return "books/add";
         }
         log.info("Creating new book: {}", dto.getTitle());
         bookService.createBook(dto);
