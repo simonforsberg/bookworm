@@ -37,7 +37,7 @@ public class BookService {
     }
 
     public BookDTO createBook(CreateBookDTO dto) {
-        log.info("Saving new book: {}", dto.getTitle());
+        log.info("Create new book: {}", dto.getTitle());
         Book book = bookMapper.toEntity(dto);
         BookDTO saved = bookMapper.toDTO(bookRepository.save(book));
         log.info("Book successfully saved with id {}", saved.getId());
