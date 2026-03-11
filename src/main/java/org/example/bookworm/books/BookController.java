@@ -1,0 +1,84 @@
+package org.example.bookworm.books;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.example.bookworm.books.dto.CreateBookDTO;
+import org.example.bookworm.books.dto.UpdateBookDTO;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+@Slf4j
+@Controller
+@RequestMapping("/books")
+@RequiredArgsConstructor
+public class BookController {
+
+    private final BookService bookService;
+
+    // Lista alla objekt
+    @GetMapping
+    public String listBooks(Model model) {
+        model.addAttribute("books", bookService.getAllBooks());
+        return "books/list";
+    }
+
+    // Visa ett objekt
+    @GetMapping("/{id}")
+    public String showBook(@PathVariable Long id, Model model) {
+        model.addAttribute("book", bookService.getBookById(id));
+        return "books/detail";
+    }
+
+    // Visa formulär för att skapa ett nytt objekt
+    @GetMapping("/new")
+    public String showCreateBookForm(Model model) {
+        model.addAttribute("book", new CreateBookDTO());
+        return "books/create";
+    }
+
+    // Skapa ett nytt objekt
+    @PostMapping
+    public String createBook(@Valid @ModelAttribute("book") CreateBookDTO dto,
+                             BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            log.warn("Validation failed when creating book: {}", bindingResult.getAllErrors());
+            return "books/create";
+        }
+        log.info("Creating new book: {}", dto.getTitle());
+        bookService.createBook(dto);
+        return "redirect:/books";
+    }
+
+    // Visa formulär för uppdatering av ett objekt
+    @GetMapping("/{id}/edit")
+    public String showUpdateBookForm(@PathVariable Long id, Model model) {
+        model.addAttribute("book", bookService.getBookById(id));
+        return "books/edit";
+    }
+
+    // Uppdatera ett objekt
+    @PostMapping("/{id}/edit")
+    public String updateBook(@PathVariable Long id,
+                             @Valid @ModelAttribute("book") UpdateBookDTO dto,
+                             BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            log.warn("Validation failed when updating book: {}", bindingResult.getAllErrors());
+            return "books/edit";
+        }
+        log.info("Updating book with id {}", id);
+        bookService.updateBook(id, dto);
+        return "redirect:/books";
+    }
+
+    // Ta bort ett objekt
+    @PostMapping("/{id}/delete")
+    public String deleteBook(@PathVariable Long id) {
+        log.info("Deleting book with id {}", id);
+        bookService.deleteBook(id);
+        return "redirect:/books";
+    }
+
+}
