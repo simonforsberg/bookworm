@@ -29,7 +29,13 @@ public class CreateBookDTO {
     private LocalDate publicationDate;
 
     @NotBlank
+    private String genre;
+
+    @NotBlank
     private String description;
+
+    @NotNull
+    private Integer pages;
 
     @NotBlank
     @Size(min = 10, max = 13)

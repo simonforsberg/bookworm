@@ -34,8 +34,14 @@ public class Book {
     private LocalDate publicationDate;
 
     @NotBlank
+    private String genre;
+
+    @NotBlank
     @Column(length = 500)
     private String description;
+
+    @NotNull
+    private Integer pages;
 
     @Column(unique = true)
     @NotBlank
@@ -46,13 +52,17 @@ public class Book {
                 String author,
                 String publisher,
                 LocalDate publicationDate,
+                String genre,
                 String description,
+                Integer pages,
                 String isbn) {
         this.title = title;
         this.author = author;
         this.publisher = publisher;
         this.publicationDate = publicationDate;
+        this.genre = genre;
         this.description = description;
+        this.pages = pages;
         this.isbn = isbn;
     }
 
