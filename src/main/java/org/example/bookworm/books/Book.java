@@ -37,7 +37,7 @@ public class Book {
     private String genre;
 
     @NotBlank
-    @Column(length = 500)
+    @Column(length = 1000)
     private String description;
 
     @NotNull
