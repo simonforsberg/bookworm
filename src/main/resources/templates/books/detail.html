@@ -1,10 +1,196 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${book.title} + ' – BookWorm'">Book – BookWorm</title>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --surface: #fafafa;
+            --border: #e5e5e5;
+            --text: #111111;
+            --muted: #888888;
+            --yellow: #f5c518;
+            --yellow-hover: #e0b300;
+            --danger: #cc3333;
+            --radius: 6px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Geist', sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        nav {
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand { font-weight: 500; font-size: 1rem; color: var(--text); text-decoration: none; }
+        .nav-brand span { color: var(--yellow-hover); }
+        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; transition: color 0.15s; }
+        .nav-links a:hover { color: var(--text); }
+
+        main { max-width: 680px; margin: 0 auto; padding: 3rem 2rem; }
+
+        .breadcrumb { font-size: 0.8rem; color: var(--muted); margin-bottom: 1.8rem; }
+        .breadcrumb a { color: var(--muted); text-decoration: none; }
+        .breadcrumb a:hover { color: var(--text); }
+
+        /* BOOK HEADER */
+        .book-title {
+            font-size: 1.8rem;
+            font-weight: 500;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+            margin-bottom: 0.3rem;
+        }
+
+        .book-author {
+            font-size: 0.95rem;
+            color: var(--muted);
+            margin-bottom: 2rem;
+        }
+
+        /* DESCRIPTION */
+        .book-description {
+            font-size: 0.9rem;
+            color: #444;
+            line-height: 1.8;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+
+        /* META GRID */
+        .meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .meta-item label {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: var(--muted);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 0.2rem;
+        }
+
+        .meta-item span {
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
+        .meta-item span.mono {
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        /* ACTIONS */
+        .actions {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .actions .spacer { margin-left: auto; }
+
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1.1rem;
+            border-radius: var(--radius);
+            font-family: 'Geist', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.15s;
+        }
+
+        .btn-yellow { background: var(--yellow); color: var(--text); border-color: var(--yellow); }
+        .btn-yellow:hover { background: var(--yellow-hover); border-color: var(--yellow-hover); }
+        .btn-ghost { background: transparent; color: var(--muted); border-color: var(--border); }
+        .btn-ghost:hover { color: var(--text); border-color: #bbb; }
+        .btn-danger-ghost { background: transparent; color: var(--danger); border-color: transparent; }
+        .btn-danger-ghost:hover { background: #fff0f0; border-color: #f5c5c5; }
+
+        footer { border-top: 1px solid var(--border); margin-top: 4rem; padding: 1.5rem 2rem; text-align: center; color: var(--muted); font-size: 0.78rem; }
+    </style>
 </head>
 <body>
+
+<nav>
+    <a class="nav-brand" th:href="@{/books}">Book<span>Worm</span></a>
+    <div class="nav-links">
+        <a th:href="@{/books}">Library</a>
+        <a th:href="@{/books/add}">Add book</a>
+    </div>
+</nav>
+
+<main>
+    <p class="breadcrumb">
+        <a th:href="@{/books}">Library</a> / <span th:text="${book.title}">Title</span>
+    </p>
+
+    <h1 class="book-title" th:text="${book.title}">Book Title</h1>
+    <p class="book-author" th:text="${book.author}">Author</p>
+
+    <p class="book-description" th:text="${book.description}">Description</p>
+
+    <div class="meta-grid">
+        <div class="meta-item">
+            <label>Publisher</label>
+            <span th:text="${book.publisher}">Publisher</span>
+        </div>
+        <div class="meta-item">
+            <label>Published</label>
+            <span th:text="${#temporals.format(book.publicationDate, 'MMM d, yyyy')}">Date</span>
+        </div>
+        <div class="meta-item">
+            <label>Genre</label>
+            <span th:text="${book.genre}">Genre</span>
+        </div>
+        <div class="meta-item">
+            <label>Pages</label>
+            <span class="mono" th:text="${book.pages}">000</span>
+        </div>
+        <div class="meta-item">
+            <label>ISBN</label>
+            <span class="mono" th:text="${book.isbn}">0000000000</span>
+        </div>
+    </div>
+
+    <div class="actions">
+        <a th:href="@{/books/{id}/edit(id=${book.id})}" class="btn btn-yellow">Edit</a>
+        <a th:href="@{/books}" class="btn btn-ghost">← Back</a>
+        <span class="spacer"></span>
+        <form th:action="@{/books/{id}/delete(id=${book.id})}" method="post">
+            <button type="submit" class="btn btn-danger-ghost"
+                    onclick="return confirm('Delete this book?')">Delete</button>
+        </form>
+    </div>
+</main>
+
+<footer>BookWorm</footer>
 
 </body>
 </html>
