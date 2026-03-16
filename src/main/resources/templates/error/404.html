@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 – Resource not Found</title>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --border: #e5e5e5;
+      --text: #111111;
+      --muted: #888888;
+      --yellow: #f5c518;
+      --yellow-hover: #e0b300;
+      --radius: 6px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Geist', sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    nav {
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      font-weight: 500;
+      font-size: 1rem;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-brand span { color: var(--yellow-hover); }
+
+    .nav-links { display: flex; gap: 1.5rem; }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+
+    .notfound {
+      text-align: center;
+      padding: 5rem 0;
+      color: var(--muted);
+    }
+
+    .notfound h1 {
+      font-size: 1.4rem;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .notfound p {
+      margin-bottom: 1.2rem;
+      font-size: 0.9rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.45rem 1rem;
+      border-radius: var(--radius);
+      font-family: 'Geist', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.15s;
+    }
+
+    .btn-yellow {
+      background: var(--yellow);
+      color: var(--text);
+      border-color: var(--yellow);
+    }
+
+    .btn-yellow:hover {
+      background: var(--yellow-hover);
+      border-color: var(--yellow-hover);
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      margin-top: 4rem;
+      padding: 1.5rem 2rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" th:href="@{/books}">Book<span>Worm</span></a>
+  <div class="nav-links">
+    <a th:href="@{/books}">Library</a>
+    <a th:href="@{/books/add}">Add book</a>
+  </div>
+</nav>
+
+<main>
+  <div class="notfound">
+
+    <h1>404 – Resource not found</h1>
+    <p th:text="${message}">The page or resource you're looking for doesn't exist.</p>
+    <a th:href="@{/books}" class="btn btn-yellow">Back to the library</a>
+  </div>
+</main>
+
+<footer>BookWorm</footer>
+
+</body>
+</html>

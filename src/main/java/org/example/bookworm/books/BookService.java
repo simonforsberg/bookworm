@@ -31,7 +31,7 @@ public class BookService {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> {
                     log.warn("Book not found with id {}", id);
-                    return new RuntimeException("Book not found: " + id);
+                    return new ResourceNotFoundException("Book not found: " + id);
                 });
         return bookMapper.toDTO(book);
     }
@@ -49,7 +49,7 @@ public class BookService {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> {
                     log.warn("Failed to update: Book not found with id {}", id);
-                    return new RuntimeException("Book not found: " + id);
+                    return new ResourceNotFoundException("Book not found: " + id);
                 });
         bookMapper.updateEntity(book, dto);
         BookDTO updated = bookMapper.toDTO(bookRepository.save(book));
@@ -60,7 +60,7 @@ public class BookService {
     public void deleteBook(Long id) {
         if (!bookRepository.existsById(id)) {
             log.warn("Failed to delete: Non-existent book with id {}", id);
-            throw new RuntimeException("Book not found: " + id);
+            throw new ResourceNotFoundException("Book not found: " + id);
         }
         bookRepository.deleteById(id);
         log.info("Book successfully deleted with id {}", id);
