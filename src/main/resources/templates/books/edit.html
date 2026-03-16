@@ -137,6 +137,8 @@
 
     <form th:action="@{/books/{id}/edit(id=${book.id})}" th:object="${book}" method="post">
 
+        <input type="hidden" th:field="*{id}"/>
+
         <div class="form-group">
             <label for="title">Title</label>
             <input id="title" type="text" th:field="*{title}"/>

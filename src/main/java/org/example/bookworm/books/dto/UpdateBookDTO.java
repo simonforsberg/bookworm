@@ -14,6 +14,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class UpdateBookDTO {
 
+    @NotNull
+    private Long id;
+
     @NotBlank
     private String title;
 
