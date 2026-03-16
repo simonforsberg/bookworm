@@ -140,19 +140,19 @@
         <div class="form-group">
             <label for="title">Title</label>
             <input id="title" type="text" th:field="*{title}"/>
-            <span th:errors="*{title}" class="field-error"></span>
+            <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="field-error"></span>
         </div>
 
         <div class="form-row">
             <div class="form-group">
                 <label for="author">Author</label>
                 <input id="author" type="text" th:field="*{author}"/>
-                <span th:errors="*{author}" class="field-error"></span>
+                <span th:if="${#fields.hasErrors('author')}" th:errors="*{author}" class="field-error"></span>
             </div>
             <div class="form-group">
                 <label for="publisher">Publisher</label>
                 <input id="publisher" type="text" th:field="*{publisher}"/>
-                <span th:errors="*{publisher}" class="field-error"></span>
+                <span th:if="${#fields.hasErrors('publisher')}" th:errors="*{publisher}" class="field-error"></span>
             </div>
         </div>
 
@@ -160,19 +160,19 @@
             <div class="form-group">
                 <label for="publicationDate">Publication date</label>
                 <input id="publicationDate" type="date" th:field="*{publicationDate}"/>
-                <span th:errors="*{publicationDate}" class="field-error"></span>
+                <span th:if="${#fields.hasErrors('publicationDate')}" th:errors="*{publicationDate}" class="field-error"></span>
             </div>
             <div class="form-group">
                 <label for="isbn">ISBN</label>
                 <input id="isbn" type="text" th:field="*{isbn}"/>
-                <span th:errors="*{isbn}" class="field-error"></span>
+                <span th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}" class="field-error"></span>
             </div>
         </div>
 
         <div class="form-group">
             <label for="description">Description</label>
             <textarea id="description" th:field="*{description}" rows="4"></textarea>
-            <span th:errors="*{description}" class="field-error"></span>
+            <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="field-error"></span>
         </div>
 
         <div class="form-actions">
