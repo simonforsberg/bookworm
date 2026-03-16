@@ -145,29 +145,42 @@
             <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="field-error"></span>
         </div>
 
+        <div class="form-group">
+            <label for="author">Author</label>
+            <input id="author" type="text" th:field="*{author}"/>
+            <span th:if="${#fields.hasErrors('author')}" th:errors="*{author}" class="field-error"></span>
+        </div>
+
         <div class="form-row">
-            <div class="form-group">
-                <label for="author">Author</label>
-                <input id="author" type="text" th:field="*{author}"/>
-                <span th:if="${#fields.hasErrors('author')}" th:errors="*{author}" class="field-error"></span>
-            </div>
+
             <div class="form-group">
                 <label for="publisher">Publisher</label>
                 <input id="publisher" type="text" th:field="*{publisher}"/>
                 <span th:if="${#fields.hasErrors('publisher')}" th:errors="*{publisher}" class="field-error"></span>
             </div>
-        </div>
-
-        <div class="form-row">
             <div class="form-group">
                 <label for="publicationDate">Publication date</label>
                 <input id="publicationDate" type="date" th:field="*{publicationDate}"/>
                 <span th:if="${#fields.hasErrors('publicationDate')}" th:errors="*{publicationDate}" class="field-error"></span>
             </div>
+        </div>
+
+        <div class="form-group">
+            <label for="isbn">ISBN</label>
+            <input id="isbn" type="text" th:field="*{isbn}"/>
+            <span th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}" class="field-error"></span>
+        </div>
+
+        <div class="form-row">
             <div class="form-group">
-                <label for="isbn">ISBN</label>
-                <input id="isbn" type="text" th:field="*{isbn}"/>
-                <span th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}" class="field-error"></span>
+                <label for="genre">Genre</label>
+                <input id="genre" type="text" th:field="*{genre}"/>
+                <span th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}" class="field-error"></span>
+            </div>
+            <div class="form-group">
+                <label for="pages">Pages</label>
+                <input id="pages" type="text" th:field="*{pages}"/>
+                <span th:if="${#fields.hasErrors('pages')}" th:errors="*{pages}" class="field-error"></span>
             </div>
         </div>
 
