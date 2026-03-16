@@ -33,6 +33,7 @@ public class UpdateBookDTO {
     private String language;
 
     @NotBlank
+    @Size(max = 1000, message = "Description must be less than 1000 characters")
     private String description;
 
     @NotNull

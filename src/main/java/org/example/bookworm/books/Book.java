@@ -37,7 +37,7 @@ public class Book {
     private String language;
 
     @NotBlank
-    @Column(length = 1000)
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @NotNull
