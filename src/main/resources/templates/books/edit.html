@@ -124,6 +124,7 @@
     <div class="nav-links">
         <a th:href="@{/books}">Library</a>
         <a th:href="@{/books/add}">Add book</a>
+        <a th:href="@{/books/search}">Search</a>
     </div>
 </nav>
 
@@ -192,7 +193,7 @@
 
         <div class="form-actions">
             <button type="submit" class="btn btn-yellow">Save changes</button>
-            <a th:href="@{/books/{id}(id=${book.id})}" class="btn btn-ghost">Cancel</a>
+            <a th:href="@{/books}" class="btn btn-ghost">Cancel</a>
         </div>
 
     </form>

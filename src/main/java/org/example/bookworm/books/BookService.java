@@ -66,4 +66,22 @@ public class BookService {
         log.info("Book successfully deleted with id {}", id);
     }
 
+    public List<BookDTO> search(String title, String author) {
+        List<Book> books;
+
+        if (title != null && author != null) {
+            books = bookRepository.findByTitleContainingIgnoreCaseAndAuthorContainingIgnoreCase(title, author);
+        } else if (title != null) {
+            books = bookRepository.findByTitleContainingIgnoreCase(title);
+        } else if (author != null) {
+            books = bookRepository.findByAuthorContainingIgnoreCase(author);
+        } else {
+            books = bookRepository.findAll();
+        }
+
+        return books.stream()
+                .map(bookMapper::toDTO)
+                .toList();
+    }
+
 }

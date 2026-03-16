@@ -3,12 +3,15 @@ package org.example.bookworm.books;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.bookworm.books.dto.BookDTO;
 import org.example.bookworm.books.dto.CreateBookDTO;
 import org.example.bookworm.books.dto.UpdateBookDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -69,6 +72,25 @@ public class BookController {
     public String deleteBook(@PathVariable Long id) {
         bookService.deleteBook(id);
         return "redirect:/books";
+    }
+
+    @GetMapping("/search")
+    public String searchBooks(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String author,
+            Model model) {
+
+        boolean hasQuery = (title != null && !title.isBlank()) || (author != null && !author.isBlank());
+
+        if (hasQuery) {
+            List<BookDTO> books = bookService.search(title, author);
+            model.addAttribute("books", books);
+        }
+
+        model.addAttribute("title", title);
+        model.addAttribute("author", author);
+
+        return "books/search";
     }
 
 }

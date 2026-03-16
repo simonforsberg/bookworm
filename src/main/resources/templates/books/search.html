@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BookWorm – Add Book</title>
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>BookWorm – Search</title>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@400&display=swap"
+          rel="stylesheet">
     <style>
         :root {
             --bg: #ffffff;
@@ -46,6 +47,7 @@
             font-size: 1rem;
             color: var(--text);
             text-decoration: none;
+            letter-spacing: -0.01em;
         }
 
         .nav-brand span {
@@ -69,9 +71,16 @@
         }
 
         main {
-            max-width: 600px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 3rem 2rem;
+        }
+
+        h1 {
+            font-size: 1.4rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
         }
 
         .breadcrumb {
@@ -89,13 +98,6 @@
             color: var(--text);
         }
 
-        h1 {
-            font-size: 1.4rem;
-            font-weight: 500;
-            letter-spacing: -0.02em;
-            margin-bottom: 2rem;
-        }
-
         .form-group {
             margin-bottom: 1.2rem;
         }
@@ -109,7 +111,7 @@
             letter-spacing: 0.02em;
         }
 
-        input, textarea {
+        input {
             width: 100%;
             padding: 0.55rem 0.75rem;
             border: 1px solid var(--border);
@@ -122,25 +124,8 @@
             transition: border-color 0.15s;
         }
 
-        input:focus, textarea:focus {
+        input:focus {
             border-color: #aaa;
-        }
-
-        textarea {
-            resize: vertical;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .field-error {
-            display: block;
-            color: var(--danger);
-            font-size: 0.78rem;
-            margin-top: 0.25rem;
         }
 
         .form-actions {
@@ -150,19 +135,21 @@
             margin-top: 1.8rem;
             padding-top: 1.5rem;
             border-top: 1px solid var(--border);
+            margin-bottom: 2.5rem;
         }
 
         .btn {
             display: inline-block;
-            padding: 0.5rem 1.1rem;
+            padding: 0.45rem 1rem;
             border-radius: var(--radius);
             font-family: 'Geist', sans-serif;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             font-weight: 500;
             text-decoration: none;
             cursor: pointer;
             border: 1px solid transparent;
             transition: all 0.15s;
+            white-space: nowrap;
         }
 
         .btn-yellow {
@@ -187,6 +174,96 @@
             border-color: #bbb;
         }
 
+        .btn-danger-ghost {
+            background: transparent;
+            color: var(--danger);
+            border-color: transparent;
+            font-size: 0.8rem;
+            padding: 0.4rem 0.7rem;
+        }
+
+        .btn-danger-ghost:hover {
+            background: #fff0f0;
+            border-color: #f5c5c5;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 5rem 0;
+            color: var(--muted);
+        }
+
+        .empty p {
+            margin-bottom: 1.2rem;
+            font-size: 0.9rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        thead th {
+            padding: 0.7rem 1rem;
+            text-align: left;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--muted);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg);
+        }
+
+        tbody tr {
+            border-bottom: 1px solid var(--border);
+            transition: background 0.1s;
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: #f5f5f5;
+        }
+
+        tbody td {
+            padding: 0.75rem 1rem;
+            vertical-align: middle;
+        }
+
+        .cell-title a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .cell-title a:hover {
+            text-decoration: underline;
+        }
+
+        .cell-muted {
+            color: var(--muted);
+        }
+
+        .cell-mono {
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .cell-actions {
+            display: flex;
+            gap: 0.3rem;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
         footer {
             border-top: 1px solid var(--border);
             margin-top: 4rem;
@@ -209,68 +286,60 @@
 </nav>
 
 <main>
-    <p class="breadcrumb"><a th:href="@{/books}">Library</a> / Add book</p>
-    <h1>Add book</h1>
+    <p class="breadcrumb"><a th:href="@{/books}">Library</a> / Search</p>
+    <h1>Search</h1>
 
-    <form th:action="@{/books}" th:object="${book}" method="post">
-
+    <form th:action="@{/books/search}" method="get">
         <div class="form-group">
             <label for="title">Title</label>
-            <input id="title" type="text" th:field="*{title}" placeholder="Title"/>
-            <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="field-error"></span>
+            <input id="title" type="text" name="title" th:value="${title}" placeholder="Search by title">
         </div>
-
         <div class="form-group">
             <label for="author">Author</label>
-            <input id="author" type="text" th:field="*{author}" placeholder="Author"/>
-            <span th:if="${#fields.hasErrors('author')}" th:errors="*{author}" class="field-error"></span>
+            <input id="author" type="text" name="author" th:value="${author}" placeholder="Search by author">
         </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="publisher">Publisher</label>
-                <input id="publisher" type="text" th:field="*{publisher}" placeholder="Publisher"/>
-                <span th:if="${#fields.hasErrors('publisher')}" th:errors="*{publisher}" class="field-error"></span>
-            </div>
-            <div class="form-group">
-                <label for="publicationDate">Publication date</label>
-                <input id="publicationDate" type="date" th:field="*{publicationDate}"/>
-                <span th:if="${#fields.hasErrors('publicationDate')}" th:errors="*{publicationDate}"
-                      class="field-error"></span>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="isbn">ISBN</label>
-            <input id="isbn" type="text" th:field="*{isbn}" placeholder="10 or 13 digits"/>
-            <span th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}" class="field-error"></span>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="language">Language</label>
-                <input id="language" type="text" th:field="*{language}" placeholder="Language"/>
-                <span th:if="${#fields.hasErrors('language')}" th:errors="*{language}" class="field-error"></span>
-            </div>
-            <div class="form-group">
-                <label for="pages">Pages</label>
-                <input id="pages" type="text" th:field="*{pages}" placeholder="Number of pages"/>
-                <span th:if="${#fields.hasErrors('pages')}" th:errors="*{pages}" class="field-error"></span>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="description">Description</label>
-            <textarea id="description" th:field="*{description}" rows="4" placeholder="A short summary..."></textarea>
-            <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="field-error"></span>
-        </div>
-
         <div class="form-actions">
-            <button type="submit" class="btn btn-yellow">Save book</button>
+            <button type="submit" class="btn btn-yellow">Search</button>
             <a th:href="@{/books}" class="btn btn-ghost">Cancel</a>
         </div>
-
     </form>
+
+    <table th:unless="${books == null or books.isEmpty()}">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Publisher</th>
+            <th>Published</th>
+            <th>ISBN</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="book : ${books}">
+            <td class="cell-title">
+                <a th:href="@{/books/{id}(id=${book.id})}" th:text="${book.title}">Title</a>
+            </td>
+            <td class="cell-muted" th:text="${book.author}">Author</td>
+            <td class="cell-muted" th:text="${book.publisher}">Publisher</td>
+            <td class="cell-muted" th:text="${#temporals.format(book.publicationDate, 'yyyy-MM-dd')}">Date</td>
+            <td class="cell-mono" th:text="${book.isbn}">ISBN</td>
+            <td class="cell-actions">
+                <a th:href="@{/books/{id}/edit(id=${book.id})}" class="btn btn-ghost">Edit</a>
+                <form th:action="@{/books/{id}/delete(id=${book.id})}" method="post">
+                    <button type="submit" class="btn btn-danger-ghost"
+                            onclick="return confirm('Delete this book?')">Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${books != null and books.isEmpty()}" class="empty">
+        <p>No books found.</p>
+    </div>
+
 </main>
 
 <footer>BookWorm</footer>
