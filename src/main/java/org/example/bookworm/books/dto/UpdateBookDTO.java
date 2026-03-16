@@ -30,7 +30,7 @@ public class UpdateBookDTO {
     private LocalDate publicationDate;
 
     @NotBlank
-    private String genre;
+    private String language;
 
     @NotBlank
     private String description;

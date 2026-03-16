@@ -18,7 +18,7 @@ public class BookDTO {
     private String author;
     private String publisher;
     private LocalDate publicationDate;
-    private String genre;
+    private String language;
     private String description;
     private Integer pages;
     private String isbn;

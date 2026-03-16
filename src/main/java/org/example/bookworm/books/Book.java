@@ -34,7 +34,7 @@ public class Book {
     private LocalDate publicationDate;
 
     @NotBlank
-    private String genre;
+    private String language;
 
     @NotBlank
     @Column(length = 1000)
@@ -52,7 +52,7 @@ public class Book {
                 String author,
                 String publisher,
                 LocalDate publicationDate,
-                String genre,
+                String language,
                 String description,
                 Integer pages,
                 String isbn) {
@@ -60,7 +60,7 @@ public class Book {
         this.author = author;
         this.publisher = publisher;
         this.publicationDate = publicationDate;
-        this.genre = genre;
+        this.language = language;
         this.description = description;
         this.pages = pages;
         this.isbn = isbn;

@@ -29,7 +29,7 @@ public class CreateBookDTO {
     private LocalDate publicationDate;
 
     @NotBlank
-    private String genre;
+    private String language;
 
     @NotBlank
     private String description;
