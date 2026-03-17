@@ -151,6 +151,30 @@
             font-size: 0.9rem;
         }
 
+        /* SEARCH BAR */
+        .search-bar {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .search-bar input {
+            width: 220px;
+            padding: 0.45rem 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-family: 'Geist', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text);
+            background: var(--bg);
+            outline: none;
+            transition: border-color 0.15s;
+        }
+
+        .search-bar input:focus {
+            border-color: #aaa;
+        }
+
         /* TABLE */
         table {
             width: 100%;
@@ -232,10 +256,19 @@
 
 <nav>
     <a class="nav-brand" th:href="@{/books}">Book<span>Worm</span></a>
+
+    <form th:action="@{/books}" method="get">
+        <div class="search-bar">
+            <input type="text" name="title" th:value="${title}" placeholder="Search by title">
+            <input type="text" name="author" th:value="${author}" placeholder="Search by author">
+            <button type="submit" class="btn btn-ghost">Search</button>
+            <a th:href="@{/books}" class="btn btn-ghost" th:if="${title != null or author != null}">Clear</a>
+        </div>
+    </form>
+
     <div class="nav-links">
         <a th:href="@{/books}">Library</a>
         <a th:href="@{/books/add}">Add book</a>
-        <a th:href="@{/books/search}">Search</a>
     </div>
 </nav>
 
