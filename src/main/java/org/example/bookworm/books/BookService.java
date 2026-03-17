@@ -79,6 +79,7 @@ public class BookService {
             books = bookRepository.findAll();
         }
 
+        log.info("Found {} book(s) in database", books.size());
         return books.stream()
                 .map(bookMapper::toDTO)
                 .toList();
