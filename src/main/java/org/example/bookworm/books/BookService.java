@@ -9,8 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -18,15 +16,6 @@ public class BookService {
 
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
-
-    public List<BookDTO> getAllBooks() {
-        List<BookDTO> books = bookRepository.findAll()
-                .stream()
-                .map(bookMapper::toDTO)
-                .toList();
-        log.info("Fetched {} books from database", books.size());
-        return books;
-    }
 
     public BookDTO getBookById(Long id) {
         log.info("Fetching book with id {}", id);
@@ -83,7 +72,9 @@ public class BookService {
 
         long totalBooks = bookRepository.count();
         log.info(
-                "Fetched page {} with {} elements ({} total in DB)",
+                "Search (title='{}', author='{}') → page {} ({} matching elements, {} books total in DB)",
+                title,
+                author,
                 books.getNumber(),
                 books.getNumberOfElements(),
                 totalBooks
