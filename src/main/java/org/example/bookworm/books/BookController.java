@@ -3,8 +3,12 @@ package org.example.bookworm.books;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.bookworm.books.dto.BookDTO;
 import org.example.bookworm.books.dto.CreateBookDTO;
 import org.example.bookworm.books.dto.UpdateBookDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,18 +26,18 @@ public class BookController {
     public String listBooks(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String author,
+            @PageableDefault(size = 5) Pageable pageable,
             Model model) {
 
-        boolean hasQuery = (title != null && !title.isBlank()) || (author != null && !author.isBlank());
+        Page<BookDTO> page = bookService.search(title, author, pageable);
 
-        if (hasQuery) {
-            model.addAttribute("books", bookService.search(title, author));
-        } else {
-            model.addAttribute("books", bookService.getAllBooks());
-        }
-
+        model.addAttribute("books", page.getContent());
+        model.addAttribute("page", page);
         model.addAttribute("title", title);
         model.addAttribute("author", author);
+
+        boolean isSearch = (title != null && !title.isBlank()) || (author != null && !author.isBlank());
+        model.addAttribute("isSearch", isSearch);
 
         return "books/list";
     }

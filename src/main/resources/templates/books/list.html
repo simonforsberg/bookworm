@@ -278,7 +278,12 @@
         <a th:href="@{/books/add}" class="btn btn-yellow">+ Add book</a>
     </div>
 
-    <div th:if="${books.isEmpty()}" class="empty">
+    <div th:if="${books.isEmpty()} and ${isSearch}" class="empty">
+        <p>No books found matching your search.</p>
+        <a th:href="@{/books}" class="btn btn-ghost">Back to library</a>
+    </div>
+
+    <div th:if="${books.isEmpty()} and !${isSearch}" class="empty">
         <p>No books yet.</p>
         <a th:href="@{/books/add}" class="btn btn-yellow">Add your first book</a>
     </div>
@@ -314,6 +319,32 @@
         </tr>
         </tbody>
     </table>
+
+    <div th:if="${page.totalPages > 1}" style="margin-top: 1rem; display:flex; gap:0.5rem;">
+
+        <!-- Previous -->
+        <a th:if="${page.hasPrevious()}"
+           th:href="@{/books(page=${page.number - 1}, title=${title}, author=${author})}"
+           class="btn btn-ghost">
+            Previous
+        </a>
+
+        <!-- Current page -->
+        <span class="btn btn-ghost">
+        Page <span th:text="${page.number + 1}"></span>
+        /
+        <span th:text="${page.totalPages}"></span>
+    </span>
+
+        <!-- Next -->
+        <a th:if="${page.hasNext()}"
+           th:href="@{/books(page=${page.number + 1}, title=${title}, author=${author})}"
+           class="btn btn-ghost">
+            Next
+        </a>
+
+    </div>
+
 </main>
 
 <footer>BookWorm</footer>

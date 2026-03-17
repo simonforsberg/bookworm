@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.bookworm.books.dto.BookDTO;
 import org.example.bookworm.books.dto.CreateBookDTO;
 import org.example.bookworm.books.dto.UpdateBookDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -66,23 +68,28 @@ public class BookService {
         log.info("Book successfully deleted with id {}", id);
     }
 
-    public List<BookDTO> search(String title, String author) {
-        List<Book> books;
+    public Page<BookDTO> search(String title, String author, Pageable pageable) {
+        Page<Book> books;
 
         if (title != null && author != null) {
-            books = bookRepository.findByTitleContainingIgnoreCaseAndAuthorContainingIgnoreCase(title, author);
+            books = bookRepository.findByTitleContainingIgnoreCaseAndAuthorContainingIgnoreCase(title, author, pageable);
         } else if (title != null) {
-            books = bookRepository.findByTitleContainingIgnoreCase(title);
+            books = bookRepository.findByTitleContainingIgnoreCase(title, pageable);
         } else if (author != null) {
-            books = bookRepository.findByAuthorContainingIgnoreCase(author);
+            books = bookRepository.findByAuthorContainingIgnoreCase(author, pageable);
         } else {
-            books = bookRepository.findAll();
+            books = bookRepository.findAll(pageable);
         }
 
-        log.info("Found {} book(s) in database", books.size());
-        return books.stream()
-                .map(bookMapper::toDTO)
-                .toList();
+        long totalBooks = bookRepository.count();
+        log.info(
+                "Fetched page {} with {} elements ({} total in DB)",
+                books.getNumber(),
+                books.getNumberOfElements(),
+                totalBooks
+        );
+
+        return books.map(bookMapper::toDTO);
     }
 
 }
