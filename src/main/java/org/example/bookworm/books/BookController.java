@@ -8,6 +8,7 @@ import org.example.bookworm.books.dto.CreateBookDTO;
 import org.example.bookworm.books.dto.UpdateBookDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +27,7 @@ public class BookController {
     public String listBooks(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String author,
-            @PageableDefault(size = 5) Pageable pageable,
+            @PageableDefault(size = 5, sort = "title", direction = Sort.Direction.ASC) Pageable pageable,
             Model model) {
 
         Page<BookDTO> page = bookService.search(title, author, pageable);
@@ -35,6 +36,16 @@ public class BookController {
         model.addAttribute("page", page);
         model.addAttribute("title", title);
         model.addAttribute("author", author);
+
+        model.addAttribute("sortField",
+                pageable.getSort().isSorted()
+                        ? pageable.getSort().iterator().next().getProperty()
+                        : "title");
+
+        model.addAttribute("sortDir",
+                pageable.getSort().isSorted()
+                        ? pageable.getSort().iterator().next().getDirection().name()
+                        : "ASC");
 
         boolean isSearch = (title != null && !title.isBlank()) || (author != null && !author.isBlank());
         model.addAttribute("isSearch", isSearch);

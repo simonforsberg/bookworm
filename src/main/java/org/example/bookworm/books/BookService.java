@@ -60,11 +60,14 @@ public class BookService {
     public Page<BookDTO> search(String title, String author, Pageable pageable) {
         Page<Book> books;
 
-        if (title != null && author != null) {
+        boolean hasTitle = title != null && !title.isBlank();
+        boolean hasAuthor = author != null && !author.isBlank();
+
+        if (hasTitle && hasAuthor) {
             books = bookRepository.findByTitleContainingIgnoreCaseAndAuthorContainingIgnoreCase(title, author, pageable);
-        } else if (title != null) {
+        } else if (hasTitle) {
             books = bookRepository.findByTitleContainingIgnoreCase(title, pageable);
-        } else if (author != null) {
+        } else if (hasAuthor) {
             books = bookRepository.findByAuthorContainingIgnoreCase(author, pageable);
         } else {
             books = bookRepository.findAll(pageable);

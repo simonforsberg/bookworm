@@ -291,10 +291,58 @@
     <table th:unless="${books.isEmpty()}">
         <thead>
         <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Publisher</th>
-            <th>Published</th>
+            <th>
+                <a th:href="@{/books(
+                    page=0,
+                    size=${page.size},
+                    title=${title},
+                    author=${author},
+                    sort=${sortField == 'title' and sortDir == 'ASC' ? 'title,desc' : 'title,asc'}
+                )}">
+                    Title
+                    <span th:if="${sortField == 'title'}"
+                          th:text="${sortDir == 'ASC' ? '↑' : '↓'}"></span>
+                </a>
+            </th>
+            <th>
+                <a th:href="@{/books(
+                    page=0,
+                    size=${page.size},
+                    title=${title},
+                    author=${author},
+                    sort=${sortField == 'author' and sortDir == 'ASC' ? 'author,desc' : 'author,asc'}
+                )}">
+                    Author
+                    <span th:if="${sortField == 'author'}"
+                          th:text="${sortDir == 'ASC' ? '↑' : '↓'}"></span>
+                </a>
+            </th>
+            <th>
+                <a th:href="@{/books(
+                    page=0,
+                    size=${page.size},
+                    title=${title},
+                    author=${author},
+                    sort=${sortField == 'publisher' and sortDir == 'ASC' ? 'publisher,desc' : 'publisher,asc'}
+                )}">
+                    Publisher
+                    <span th:if="${sortField == 'publisher'}"
+                          th:text="${sortDir == 'ASC' ? '↑' : '↓'}"></span>
+                </a>
+            </th>
+            <th>
+                <a th:href="@{/books(
+                    page=0,
+                    size=${page.size},
+                    title=${title},
+                    author=${author},
+                    sort=${sortField == 'publicationDate' and sortDir == 'ASC' ? 'publicationDate,desc' : 'publicationDate,asc'}
+                )}">
+                    Published
+                    <span th:if="${sortField == 'publicationDate'}"
+                          th:text="${sortDir == 'ASC' ? '↑' : '↓'}"></span>
+                </a>
+            </th>
             <th>ISBN</th>
             <th></th>
         </tr>
@@ -322,9 +370,15 @@
 
     <div th:if="${page.totalPages > 1}" style="margin-top: 1rem; display:flex; gap:0.5rem;">
 
-        <!-- Previous -->
+        <!-- Previous page -->
         <a th:if="${page.hasPrevious()}"
-           th:href="@{/books(page=${page.number - 1}, title=${title}, author=${author})}"
+           th:href="@{/books(
+                page=${page.number - 1},
+                size=${page.size},
+                sort=${sortField + ',' + sortDir},
+                title=${title},
+                author=${author}
+            )}"
            class="btn btn-ghost">
             Previous
         </a>
@@ -336,9 +390,15 @@
         <span th:text="${page.totalPages}"></span>
     </span>
 
-        <!-- Next -->
+        <!-- Next page -->
         <a th:if="${page.hasNext()}"
-           th:href="@{/books(page=${page.number + 1}, title=${title}, author=${author})}"
+           th:href="@{/books(
+                page=${page.number + 1},
+                size=${page.size},
+                sort=${sortField + ',' + sortDir},
+                title=${title},
+                author=${author}
+            )}"
            class="btn btn-ghost">
             Next
         </a>
