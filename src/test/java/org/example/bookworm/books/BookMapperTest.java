@@ -25,9 +25,9 @@ class BookMapperTest {
         Book book = mapper.toEntity(dto);
 
         // Assert
+        assertNotNull(book);
         assertEquals("Test Title", book.getTitle());
         assertEquals("Test Author", book.getAuthor());
-        assertNotNull(book);
     }
 
     @Test
