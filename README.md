@@ -3,6 +3,8 @@ A personal book library manager built with Spring Boot!
 
 BookWorm lets you keep track of your book collection — add, edit, search, and remove books through a clean web interface.
 
+![bookworm start page](bookworm-image.png)
+
 ---
 
 ## Tech Stack
