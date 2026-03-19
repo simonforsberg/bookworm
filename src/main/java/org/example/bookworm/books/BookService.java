@@ -8,10 +8,12 @@ import org.example.bookworm.books.dto.UpdateBookDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class BookService {
 
     private final BookRepository bookRepository;
@@ -27,6 +29,7 @@ public class BookService {
         return bookMapper.toDTO(book);
     }
 
+    @Transactional
     public BookDTO createBook(CreateBookDTO dto) {
         log.info("Create new book: {}", dto.getTitle());
         Book book = bookMapper.toEntity(dto);
@@ -35,6 +38,7 @@ public class BookService {
         return saved;
     }
 
+    @Transactional
     public BookDTO updateBook(Long id, UpdateBookDTO dto) {
         log.info("Updating book with id {}", id);
         Book book = bookRepository.findById(id)
@@ -48,6 +52,7 @@ public class BookService {
         return updated;
     }
 
+    @Transactional
     public void deleteBook(Long id) {
         if (!bookRepository.existsById(id)) {
             log.warn("Failed to delete: Non-existent book with id {}", id);
