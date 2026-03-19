@@ -94,7 +94,7 @@ class BookServiceTest {
     @DisplayName("updateBook tests")
     class updateBookTests {
         @Test
-        @DisplayName("updateBook returns BookDTO when book is updated")
+        @DisplayName("updateBook returns BookDTO when book is edited")
         void updateBook_shouldReturnDto_whenBookIsUpdated() {
             // Arrange
             UpdateBookDTO updateDto = new UpdateBookDTO();
