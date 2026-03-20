@@ -24,7 +24,7 @@ public class BookService {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> {
                     log.warn("Book not found with id {}", id);
-                    return new ResourceNotFoundException(" " + id);
+                    return new ResourceNotFoundException("Book not found with id " + id);
                 });
         return bookMapper.toDTO(book);
     }

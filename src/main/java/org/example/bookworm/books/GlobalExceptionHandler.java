@@ -13,7 +13,7 @@ public class GlobalExceptionHandler {
     public String handleNotFound(
             ResourceNotFoundException exception,
             Model model) {
-        log.warn("Handled ResourceNotFoundException for id{}", exception.getMessage());
+        log.warn("Handled ResourceNotFoundException: {}", exception.getMessage());
         model.addAttribute("message", "The page or resource you're looking for doesn't exist.");
 
         return "error/404";
