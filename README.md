@@ -5,6 +5,10 @@ BookWorm lets you keep track of your book collection — add, edit, search, and 
 
 ![bookworm start page](bookworm-image.png)
 
+![bookworm start page](bookworm-add.png)
+
+![bookworm start page](bookworm-detail.png)
+
 ---
 
 ## Tech Stack
