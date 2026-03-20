@@ -1,9 +1,11 @@
 package org.example.bookworm.books;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -11,10 +13,9 @@ public class GlobalExceptionHandler {
     public String handleNotFound(
             ResourceNotFoundException exception,
             Model model) {
-
-        model.addAttribute("message", exception.getMessage());
+        log.warn("Handled ResourceNotFoundException for id{}", exception.getMessage());
+        model.addAttribute("message", "The page or resource you're looking for doesn't exist.");
 
         return "error/404";
     }
-
 }
